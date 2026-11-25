@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0f1c">
+  <meta name="description" content="Report a bug in a ROM Games build. Describe what happened, how to reproduce it, your system specs, and attach log files.">
+  <title>Bug Report — ROM Games</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- SVG icon sprite -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-bug" viewBox="0 0 24 24"><path d="M8 2l1.5 2.5M16 2l-1.5 2.5M12 6a6 6 0 0 0-6 6v1h12v-1a6 6 0 0 0-6-6Zm-6 8H3m18 0h-3M6.3 17.5 4.2 20m13.5-2.5 2.1 2.5M6 11 3.5 9.5M18 11l2.5-1.5M12 6V4"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="11" r="1"/><path d="M12 12v8m-3-4.5h6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></symbol>
+    <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-1.2 4A2.6 2.6 0 0 1 18.1 20c-1 0-1.9-.6-2.4-1.5L14.6 16H9.4l-1.1 2.5A2.6 2.6 0 0 1 5.9 20a2.6 2.6 0 0 1-2.5-1.6l-1.2-4A5 5 0 0 1 7 8Z"/><path d="M7.5 11.5v3M6 13h3M16 12.5h.01M18.5 14.5h.01"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-steps" viewBox="0 0 24 24"><path d="M4 6h2M4 12h2M4 18h2M10 6h10M10 12h10M10 18h10"/></symbol>
+    <symbol id="i-pc" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 8h4M7 11h7"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 3.6 2.2c-.8.5-1.2 1-1.2 1.8v.5M12 17h.01"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.3 9A7 7 0 0 1 18 7l2 5M4 12l2 5a7 7 0 0 0 11.7-2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 3 10.5l7 2.5 2.5 7L21 3Z"/><path d="M10 13 21 3"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5"/></symbol>
+  </svg>
+
+  <div class="ambient" aria-hidden="true"><span></span><span></span></div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="ROM Games Bug Report home">
+        <span class="brand-mark"><svg><use href="#i-bug"/></svg></span>
+        <span class="brand-text">BUG<span>REPORT</span><small>by ROM Games</small></span>
+      </a>
+      <div class="header-note"><span class="pulse"></span> Reports go straight to the team</div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="eyebrow">// SUBMIT A REPORT</p>
+      <h1>Found a bug?<br><span>Tell us exactly what happened.</span></h1>
+      <p class="hero-copy">The more detail you give us, the faster we can track it down. Required fields are marked with an asterisk. Everything else is optional — but very welcome.</p>
+      <div class="chips" aria-label="Form highlights">
+        <span class="chip"><svg><use href="#i-shield"/></svg> Spam &amp; bot protected</span>
+        <span class="chip"><svg><use href="#i-file"/></svg> Log files welcome</span>
+        <span class="chip"><svg><use href="#i-user"/></svg> No account needed</span>
+      </div>
+    </section>
+
+    <section class="wrap form-section">
+      <form id="bugForm" action="https://formsubmit.co/romgamereports@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="_subject" value="New Bug Report - ROM Games">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="thanks.html">
+        <!-- Honeypots: humans must leave these alone -->
+        <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="text" name="company_website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <!-- 01 About you -->
+        <section class="card" aria-labelledby="s1">
+          <div class="card-head">
+            <span class="section-no">01</span>
+            <div><h2 id="s1">About you <span class="optional">optional</span></h2><p>So we know who to credit when it's fixed.</p></div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <div class="input-wrap"><svg><use href="#i-user"/></svg><input type="text" id="fullName" name="full_name" placeholder="e.g. Alex Morgan" autocomplete="name" maxlength="100"></div>
+            </div>
+            <div class="field">
+              <label for="steam">Steam username</label>
+              <div class="input-wrap"><svg><use href="#i-gamepad"/></svg><input type="text" id="steam" name="steam_username" placeholder="e.g. alexplays" autocomplete="off" maxlength="100"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 02 The bug -->
+        <section class="card" aria-labelledby="s2">
+          <div class="card-head">
+            <span class="section-no">02</span>
+            <div><h2 id="s2">The bug <span class="required">required</span></h2><p>Be specific. What did you expect, and what happened instead?</p></div>
+          </div>
+          <div class="field">
+            <label for="description">Describe the bug <span class="star" aria-hidden="true">*</span></label>
+            <textarea id="description" name="bug_description" rows="6" maxlength="5000" placeholder="e.g. When I load the level, the texture on the bridge turns bright pink and the game freezes after about 10 seconds." aria-describedby="descriptionError descriptionCount" required></textarea>
+            <div class="field-foot"><p class="field-error" id="descriptionError" role="alert"></p><span class="counter" id="descriptionCount">0 / 5000</span></div>
+          </div>
+          <div class="field">
+            <label for="steps">How to reproduce it <span class="star" aria-hidden="true">*</span></label>
+            <p class="hint">Number each step so we can follow it exactly.</p>
+            <div class="input-wrap textarea-wrap"><svg><use href="#i-steps"/></svg><textarea id="steps" name="reproduction_steps" rows="7" maxlength="5000" placeholder="1. Start the game and load Save Slot 2.&#10;2. Walk to the old bridge north of the village.&#10;3. Look at the bridge surface.&#10;4. Wait 10 seconds — the game freezes." aria-describedby="stepsError stepsCount" required></textarea></div>
+            <div class="field-foot"><p class="field-error" id="stepsError" role="alert"></p><span class="counter" id="stepsCount">0 / 5000</span></div>
+          </div>
+        </section>
+
+        <!-- 03 System specs -->
+        <section class="card" aria-labelledby="s3">
+          <div class="card-head">
+            <span class="section-no">03</span>
+            <div><h2 id="s3">System specs <span class="optional">optional</span></h2><p>OS, CPU, GPU and RAM help us reproduce hardware-specific bugs.</p></div>
+            <button type="button" class="ghost-btn" data-open-specs><svg><use href="#i-help"/></svg> How do I find these?</button>
+          </div>
+          <div class="field">
+            <label for="specs">Your system specs</label>
+            <div class="input-wrap textarea-wrap"><svg><use href="#i-pc"/></svg><textarea id="specs" name="system_specs" rows="5" maxlength="5000" placeholder="OS: Windows 11 23H2&#10;CPU: Ryzen 5 5600X&#10;GPU: RTX 3060 12GB&#10;RAM: 16 GB&#10;Game version: v1.04" aria-describedby="specsError"></textarea></div>
+            <div class="field-foot"><p class="field-error" id="specsError" role="alert"></p></div>
+          </div>
+        </section>
+
+        <!-- 04 Log file -->
+        <section class="card" aria-labelledby="s4">
+          <div class="card-head">
+            <span class="section-no">04</span>
+            <div><h2 id="s4">Log file <span class="optional">optional</span></h2><p>Attach crash logs, screenshots or a zip — up to 10 MB in total.</p></div>
+          </div>
+          <div class="field">
+            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose or drop log files">
+              <input type="file" id="logFiles" name="log_files" multiple accept=".log,.txt,.json,.xml,.csv,.cfg,.ini,.md,.zip,.7z,.rar,.dmp,.png,.jpg,.jpeg,.webp">
+              <span class="drop-icon"><svg><use href="#i-upload"/></svg></span>
+              <span class="drop-title">Drag &amp; drop files here, or <strong>browse</strong></span>
+              <span class="drop-sub">.log, .txt, .json, .zip, screenshots — max 10 MB total</span>
+            </div>
+            <p class="field-error" id="filesError" role="alert"></p>
+            <ul class="file-list" id="fileList" aria-live="polite"></ul>
+          </div>
+        </section>
+
+        <!-- 05 Verification -->
+        <section class="card verify-card" aria-labelledby="s5">
+          <div class="card-head">
+            <span class="section-no">05</span>
+            <div><h2 id="s5">Human check <span class="required">required</span></h2><p>A quick question to keep the bots out.</p></div>
+          </div>
+          <div class="verify-row">
+            <div class="field">
+              <label for="captchaAnswer" id="captchaQuestion">What is 1 + 1?</label>
+              <div class="input-wrap"><svg><use href="#i-shield"/></svg><input type="text" id="captchaAnswer" inputmode="numeric" autocomplete="off" placeholder="Your answer" maxlength="6" aria-describedby="captchaError" required></div>
+              <p class="field-error" id="captchaError" role="alert"></p>
+            </div>
+            <button type="button" class="ghost-btn small" id="refreshCaptcha" aria-label="Get a new question"><svg><use href="#i-refresh"/></svg> New question</button>
+          </div>
+          <p class="form-status" id="formStatus" role="alert" aria-live="polite"></p>
+        </section>
+
+        <div class="submit-row">
+          <p class="submit-note"><svg><use href="#i-shield"/></svg> Your report is sent privately to romgamereports@gmail.com.</p>
+          <button type="submit" class="primary-btn" id="submitBtn"><span class="btn-label"><svg><use href="#i-send"/></svg> Send bug report</span><span class="spinner" aria-hidden="true"></span></button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>© ROM Games — Bug reports</span>
+      <span>Made for players, by players.</span>
+    </div>
+  </footer>
+
+  <!-- System specs helper modal -->
+  <div class="modal" id="specsModal" hidden>
+    <div class="modal-backdrop" data-close-specs></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div><p class="eyebrow">// SYSTEM SPECS</p><h2 id="modalTitle">How to find your specs</h2></div>
+        <button type="button" class="icon-btn" data-close-specs aria-label="Close dialog"><svg><use href="#i-close"/></svg></button>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Operating system">
+        <button type="button" class="tab" data-os-tab="windows" role="tab" aria-selected="true">Windows</button>
+        <button type="button" class="tab" data-os-tab="mac" role="tab" aria-selected="false">macOS</button>
+        <button type="button" class="tab" data-os-tab="linux" role="tab" aria-selected="false">Linux</button>
+      </div>
+      <div class="modal-body">
+        <div class="os-panel" data-os-panel="windows">
+          <ol class="steps">
+            <li>Press <kbd>Win</kbd> + <kbd>R</kbd>, type <code>msinfo32</code> and press Enter. The <strong>System Summary</strong> shows your OS, processor and installed RAM.</li>
+            <li>Press <kbd>Win</kbd> + <kbd>R</kbd>, type <code>dxdiag</code> and press Enter. Open the <strong>Display</strong> tab for your graphics card and driver version.</li>
+            <li>Alternatively, go to <strong>Settings → System → About</strong>.</li>
+          </ol>
+        </div>
+        <div class="os-panel" data-os-panel="mac" hidden>
+          <ol class="steps">
+            <li>Click the <strong>Apple menu</strong> → <strong>About This Mac</strong>. The Overview tab shows your macOS version, chip and memory.</li>
+            <li>Click <strong>System Report…</strong> for full details, including graphics cards under <strong>Graphics / Displays</strong>.</li>
+            <li>For a quick summary, open Terminal and run <code>system_profiler SPHardwareDataType</code>.</li>
+          </ol>
+        </div>
+        <div class="os-panel" data-os-panel="linux" hidden>
+          <p class="steps-intro">Open a terminal and run these commands, then copy the output:</p>
+          <div class="code-block"><pre id="cmd-linux"><code>uname -a
+lsb_release -a
+lscpu | head -20
+free -h
+lspci | grep -i -E 'vga|3d|display'
+glxinfo -B | head -20</code></pre><button type="button" class="copy-btn" data-copy-target="#cmd-linux"><svg><use href="#i-copy"/></svg> Copy</button></div>
+          <p class="steps-intro">Or run <code>neofetch</code> / <code>fastfetch</code> if installed and copy the summary.</p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="primary-btn slimmer" id="insertTemplate"><svg><use href="#i-copy"/></svg> Use a spec template</button>
+        <p class="modal-hint">This fills the system specs box with a handy layout.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>
